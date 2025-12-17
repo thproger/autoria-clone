@@ -27,8 +27,6 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(matchRegistry -> {
                     matchRegistry
                             .requestMatchers("/api/v1/auth/**").permitAll()
-                            .requestMatchers("/create").hasAnyRole("ADMIN", "SELLER")
-                            .requestMatchers("/users/**").hasAnyRole("ADMIN", "MANAGER")
                             .anyRequest()
                             .authenticated();
                 })

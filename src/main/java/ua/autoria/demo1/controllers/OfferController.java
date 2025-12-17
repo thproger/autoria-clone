@@ -8,7 +8,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ua.autoria.demo1.models.Offer;
 import ua.autoria.demo1.models.OfferManipulations;
-import ua.autoria.demo1.models.dto.OfferActiveDTO;
 import ua.autoria.demo1.models.dto.OfferDTO;
 import ua.autoria.demo1.services.OfferService;
 
@@ -28,8 +27,10 @@ public class OfferController {
     @PreAuthorize("hasAnyRole('MANAGER', 'SELLER', 'ADMIN')")
     @PostMapping("/create")
     public HttpStatus createOffer(@RequestBody OfferDTO offerDTO) {
+        System.out.println("createOffer: " + offerDTO);
         var offer = new OfferDTO(offerDTO.getUserId(), offerDTO.getTitle(), offerDTO.getBody(), offerDTO.getPrice(), offerDTO.getCurrency());
         try {
+            System.out.println("Creating offer: " + offer);
             offerService.createOffer(offer);
         } catch (MessagingException e) {
             return HttpStatus.BAD_REQUEST;

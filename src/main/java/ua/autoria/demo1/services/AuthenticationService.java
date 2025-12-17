@@ -19,21 +19,27 @@ public class AuthenticationService {
     private AuthenticationManager authenticationManager;
     private SendEmailService sendEmailService;
 
-    public AuthenticationResponse register(RegisterRequest registerRequest) throws MessagingException {
-        var user = User.builder()
-                .firstName(registerRequest.getFirstName())
-                .lastName(registerRequest.getLastName())
-                .email(registerRequest.getEmail())
-                .password(passwordEncoder.encode(registerRequest.getPassword()))
-                .role(Role.valueOf(registerRequest.getRole()))
-                .build();
-        userDAO.save(user);
-        jwtService.generateToken(user);
+    public AuthenticationResponse register(RegisterRequest registerRequest) throws MessagingException, RuntimeException {
+        User user = new User();
+        try {
+            user = User.builder()
+                    .firstName(registerRequest.getFirstName())
+                    .lastName(registerRequest.getLastName())
+                    .email(registerRequest.getEmail())
+                    .password(registerRequest.getPassword())
+                    .role(Role.valueOf(registerRequest.getRole()))
+                    .build();
+        } catch (NullPointerException e) {
+            System.err.println(e.getMessage());
+            throw new RuntimeException("invalid email or password");
+        }
+        System.out.println("user registered successfully, build");
         var token = jwtService.generateToken(user);
+        System.out.println("token generated");
 
         var refreshToken = jwtService.generateRefreshToken(user);
         user.setRefreshToken(refreshToken);
-
+        userDAO.save(user);
         System.out.println("Token: " + token);
         var response = AuthenticationResponse.builder()
                 .token(token)

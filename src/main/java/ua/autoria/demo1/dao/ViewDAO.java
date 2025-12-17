@@ -5,10 +5,10 @@ import org.springframework.stereotype.Repository;
 import ua.autoria.demo1.models.Offer;
 import ua.autoria.demo1.models.View;
 
+import java.util.List;
+
 @Repository
 public interface ViewDAO extends JpaRepository<View, Long> {
     int countByOffer(Offer offer);
-    int countByOfferInCurrentMonth(Offer offer);
-    int countByOfferInCurrentDay(Offer offer);
-    int countByOfferInCurrentWeek(Offer offer);
+    List<View> findByOfferId(long id);
 }

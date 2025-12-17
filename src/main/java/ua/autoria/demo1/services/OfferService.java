@@ -10,7 +10,7 @@ import ua.autoria.demo1.models.Role;
 import ua.autoria.demo1.models.View;
 import ua.autoria.demo1.models.dto.OfferDTO;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -62,8 +62,8 @@ public class OfferService {
 
     public Offer getOfferById(long id) {
         var offer = offerDAO.findById(id).orElseThrow(() -> new RuntimeException("Offer not found"));
-        viewDAO.save(new View(offer, new Date()));
-        System.out.println(new Date());
+        viewDAO.save(new View(offer, LocalDate.now()));
+        var date = LocalDate.now();
         offerDAO.save(offer);
         return offer;
     }

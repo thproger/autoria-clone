@@ -6,6 +6,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import ua.autoria.demo1.dao.OfferDAO;
 import ua.autoria.demo1.models.ManagerMessage;
 import ua.autoria.demo1.models.Offer;
 import ua.autoria.demo1.models.RegisterRequest;
@@ -17,15 +18,17 @@ import java.util.Random;
 public class SendEmailService {
     private final JavaMailSender mailSender;
     private final UserService userService;
-    private final OfferService offerService;
+    private final OfferDAO offerDAO;
 
     @Async
     public void sendHelloEmail(RegisterRequest user) throws MessagingException {
+        System.out.println("sending email");
         var sender = "autoria@super.com";
         var mail = mailSender.createMimeMessage();
         var helper = new MimeMessageHelper(mail);
         helper.setFrom(sender);
         helper.setTo(user.getEmail());
+        helper.setReplyTo(sender);
         helper.setSubject("Registration Confirmation");
         helper.setText("Hello, " + user.getFirstName() + " " + user.getLastName() + "!\n" + "You have registered on our website, and now you can view ads on our website or post your own ads. To do this, you need to change your account type to “sell");
         mailSender.send(mail);
@@ -48,7 +51,7 @@ public class SendEmailService {
     public void sendMessageToManager(ManagerMessage message) throws MessagingException {
         var user = userService.getUser(message.getUserId());
         var managers = userService.getAllManagers();
-        var offer = offerService.getOfferById(message.getOfferId());
+        var offer = offerDAO.findById(message.getOfferId()).orElseThrow(() -> new RuntimeException("Offer not found"));
         var offerCreator = userService.getUser(offer.getUser().getId());
         var rand = new Random();
         var manager = managers.get(rand.nextInt(managers.size()));

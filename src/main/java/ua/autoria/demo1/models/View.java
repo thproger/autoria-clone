@@ -6,10 +6,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
 @Entity
+@NoArgsConstructor
 public class View {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,9 +20,8 @@ public class View {
     @JoinColumn(name = "offer_id")
     private Offer offer;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private Date date;
-
-    public View(Offer offer, Date date) {
+    private LocalDate date;
+    public View(Offer offer, LocalDate date) {
         this.offer = offer;
         this.date = date;
     }
