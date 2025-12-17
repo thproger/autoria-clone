@@ -3,12 +3,9 @@ package ua.autoria.demo1.controllers;
 import jakarta.mail.MessagingException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ua.autoria.demo1.models.ManagerMessage;
-import ua.autoria.demo1.models.OfferManipulations;
-import ua.autoria.demo1.models.dto.OfferActiveDTO;
 import ua.autoria.demo1.services.OfferService;
 import ua.autoria.demo1.services.SendEmailService;
 import ua.autoria.demo1.services.UserService;
@@ -43,6 +40,17 @@ public class UserController {
         return HttpStatus.OK;
     }
 
+    @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
+    @GetMapping("/unblock/{id}")
+    public HttpStatus unblock (@PathVariable long id) {
+        try {
+            userService.unBlockUser(id);
+        } catch (RuntimeException e) {
+            return HttpStatus.BAD_REQUEST;
+        }
+        return HttpStatus.OK;
+    }
+
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/create-meneger/{id}")
     public HttpStatus createManager(@PathVariable long id) {
@@ -51,7 +59,7 @@ public class UserController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/delete-meneger/{id}")
+    @DeleteMapping("/delete-meneger/{id}")
     public HttpStatus deleteManager(@PathVariable long id) {
         userService.deleteManager(id);
         return HttpStatus.OK;
@@ -67,10 +75,10 @@ public class UserController {
         }
     }
 
-    @GetMapping("/premium/{id}")
+    @GetMapping("/unpremium/{id}")
     public HttpStatus unPremium(@PathVariable long id) {
         try {
-            userService.setNotPremium(  id);
+            userService.setNotPremium(id);
             return HttpStatus.OK;
         } catch (RuntimeException e) {
             return HttpStatus.BAD_REQUEST;
@@ -87,16 +95,13 @@ public class UserController {
         }
     }
 
-    @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
-    @PostMapping("/change-active")
-    public ResponseEntity<OfferManipulations> changeActive(@RequestBody OfferActiveDTO offer) {
+    @GetMapping("/create-seller/{id}")
+    public HttpStatus createSeller(@PathVariable long id) {
         try {
-            offerService.changeStatus(offer.getId(), offer.isActive());
-            return new ResponseEntity<>(HttpStatus.OK);
+            userService.createSeller(id);
+            return HttpStatus.OK;
         } catch (RuntimeException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } catch (Exception e) {
-            return new ResponseEntity<>(OfferManipulations.DELETED,HttpStatus.OK);
+            return HttpStatus.BAD_REQUEST;
         }
     }
 }

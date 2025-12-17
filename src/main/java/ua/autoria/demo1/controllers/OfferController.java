@@ -6,9 +6,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import ua.autoria.demo1.models.Currency;
 import ua.autoria.demo1.models.Offer;
+import ua.autoria.demo1.models.OfferManipulations;
+import ua.autoria.demo1.models.dto.OfferActiveDTO;
 import ua.autoria.demo1.models.dto.OfferDTO;
 import ua.autoria.demo1.services.OfferService;
 
@@ -27,8 +27,8 @@ public class OfferController {
 
     @PreAuthorize("hasAnyRole('MANAGER', 'SELLER', 'ADMIN')")
     @PostMapping("/create")
-    public HttpStatus createOffer(@RequestParam long userId, @RequestParam String title, @RequestParam String body, @RequestParam int price, @RequestParam String currency, @RequestParam MultipartFile image) {
-        var offer = new OfferDTO(userId, title, body, price, Currency.valueOf(currency));
+    public HttpStatus createOffer(@RequestBody OfferDTO offerDTO) {
+        var offer = new OfferDTO(offerDTO.getUserId(), offerDTO.getTitle(), offerDTO.getBody(), offerDTO.getPrice(), offerDTO.getCurrency());
         try {
             offerService.createOffer(offer);
         } catch (MessagingException e) {
@@ -71,6 +71,19 @@ public class OfferController {
             return new ResponseEntity<>(offer, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
+    @PostMapping("/change-active/{offerId}/{active}")
+    public ResponseEntity<OfferManipulations> changeActive(@PathVariable long offerId, @PathVariable boolean active) {
+        try {
+            offerService.changeStatus(offerId, active);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>(OfferManipulations.DELETED,HttpStatus.OK);
         }
     }
 }

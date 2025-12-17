@@ -19,6 +19,13 @@ public class UserService {
         userDAO.save(user);
     }
 
+    public void unBlockUser(long userId) throws RuntimeException {
+        var user = userDAO.findUserById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        user.setBlocked(false);
+        userDAO.save(user);
+    }
+
+
     public void deleteUser(long userId) throws RuntimeException {
         userDAO.deleteUserById(userId);
     }
@@ -31,7 +38,7 @@ public class UserService {
 
     public void deleteManager(long userId) throws RuntimeException {
         var user = userDAO.findUserById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-        user.setRole(Role.ROLE_MANAGER);
+        user.setRole(Role.ROLE_CUSTOMER);
         userDAO.save(user);
     }
 
@@ -53,5 +60,10 @@ public class UserService {
 
     public List<User> getAllManagers() {
         return userDAO.getAllUsersByRole(Role.ROLE_MANAGER);
+    }
+
+    public void createSeller(long userId) throws RuntimeException {
+        var user = userDAO.findUserById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        user.setRole(Role.ROLE_SELLER);
     }
 }
