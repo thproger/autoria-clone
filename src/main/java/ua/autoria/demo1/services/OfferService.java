@@ -5,9 +5,7 @@ import org.springframework.stereotype.Service;
 import ua.autoria.demo1.dao.OfferDAO;
 import ua.autoria.demo1.dao.UserDAO;
 import ua.autoria.demo1.dao.ViewDAO;
-import ua.autoria.demo1.models.Offer;
-import ua.autoria.demo1.models.Role;
-import ua.autoria.demo1.models.View;
+import ua.autoria.demo1.models.*;
 import ua.autoria.demo1.models.dto.OfferDTO;
 
 import java.time.LocalDate;
@@ -31,6 +29,7 @@ public class OfferService {
         var offer = new Offer().builder()
                 .title(offerDTO.getTitle())
                 .body(offerDTO.getBody())
+                .model(new Model(offerDTO.getModel()))
                 .price(offerDTO.getPrice())
                 .currency(offerDTO.getCurrency())
                 .user(user).build();
@@ -76,5 +75,34 @@ public class OfferService {
             throw new Exception("Offer has been deleted");
         }
         offerDAO.save(offer);
+    }
+
+    public double averageByModel(String name) {
+        var models = offerDAO.findByModelName(name);
+        var sum = 0;
+        for(var model : models) {
+            sum += model.getPrice();
+        }
+
+        return (double) sum / models.size();
+    }
+
+    public double averageByModelAndRegion(String name, Region region) {
+        var models = offerDAO.findByModelNameAndRegion(name, region);
+        var sum = 0;
+        for(var model : models) {
+            sum += model.getPrice();
+        }
+
+        return (double) sum / models.size();
+    }
+
+    public AnalyticsResponse createAnalytics(long userId, long offerId) {
+        var user = userDAO.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        if (!user.getIsPremium()) {
+            throw new RuntimeException("You don't premium user :(");
+        }
+        var offer = offerDAO.findById(offerId).orElseThrow(() -> new RuntimeException("offer not found"));
+        return new AnalyticsResponse(viewDAO.countByOffer(offer), averageByModel(offer.getModel().getName()), averageByModelAndRegion(offer.getModel().getName(), offer.getRegion()));
     }
 }

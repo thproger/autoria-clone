@@ -10,6 +10,7 @@ public class OfferDTO {
     private long userId;
     private String title;
     private String body;
+    private String model;
     private int price;
     private Currency currency;
 }

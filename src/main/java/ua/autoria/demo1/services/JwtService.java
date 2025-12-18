@@ -44,7 +44,7 @@ public class JwtService {
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 10000*60))
+                .setExpiration(new Date(System.currentTimeMillis() + 100000*60))
                 .signWith(getSigningKey(), io.jsonwebtoken.SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -55,6 +55,7 @@ public class JwtService {
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
         var username = extractUsername(token);
+        System.out.println("Token is expired: " + isTokenExpired(token));
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
@@ -70,7 +71,7 @@ public class JwtService {
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(userDetails.getUsername())
-                .setIssuedAt(new Date(System.currentTimeMillis() + 1000*60*24))
+                .setIssuedAt(new Date(System.currentTimeMillis() + 100000*60*24))
                 .signWith(getSigningKey(), io.jsonwebtoken.SignatureAlgorithm.HS256)
                 .compact();
     }

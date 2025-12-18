@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "de3521df-7d73-43ef-9ee0-c3aefc362b70",
 		"name": "autoria-clone",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "21244314",
 		"_collection_link": "https://www.postman.com/blue-crater-367840/workspace/gnu/collection/21244314-de3521df-7d73-43ef-9ee0-c3aefc362b70?action=share&source=collection_link&creator=21244314"
 	},
@@ -13,16 +13,87 @@
 				{
 					"name": "simple-user",
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstname\": \"user\",\r\n    \"lastname\": \"user\",\r\n    \"email\": \"sssss@tuta.io\",\r\n    \"password\": \"jsdhakjds\",\r\n    \"isPremiun\": false,\r\n    \"isBlocked\": false,\r\n    \"role\": \"ROLE_CUSTOMER\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/v1/auth/register",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"register"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "admin-user",
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"user\",\r\n    \"lastName\": \"user\",\r\n    \"email\": \"ftcserhiy@gmail.com\",\r\n    \"password\": \"jsdhakjds\",\r\n    \"role\": \"ROLE_ADMIN\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/v1/auth/register",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "authorisation",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"user\",\r\n    \"lastName\": \"user\",\r\n    \"email\": \"super@gmail.com\",\r\n    \"password\": \"jsdhakjds\",\r\n    \"role\": \"ROLE_ADMIN\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/v1/auth/authenticate",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"authenticate"
+							]
+						}
 					},
 					"response": []
 				}
@@ -34,32 +105,95 @@
 				{
 					"name": "manager",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{vault:authorization-secret}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/v1/users/create-manager/1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"create-manager",
+								"1"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "delete-manager",
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/users/delete-meneger/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"delete-meneger",
+								"1"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "delete",
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/v1/users/3",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"3"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "block",
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/v1/users/block/3",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"block",
+								"3"
+							]
+						}
 					},
 					"response": []
 				},
@@ -67,7 +201,20 @@
 					"name": "unblock",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/v1/users/unblock/3",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"unblock",
+								"3"
+							]
+						}
 					},
 					"response": []
 				},
@@ -75,7 +222,20 @@
 					"name": "premium",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/v1/users/premium/0",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"premium",
+								"0"
+							]
+						}
 					},
 					"response": []
 				},
@@ -83,15 +243,47 @@
 					"name": "unpremium",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/v1/unpremium/0",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"unpremium",
+								"0"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "write-to-manager",
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"offerId\": 1,\r\n    \"message\": \"This car don't work correctyly\",\r\n    \"userId\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/v1/write-to-manager",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"write-to-manager"
+							]
+						}
 					},
 					"response": []
 				},
@@ -99,7 +291,20 @@
 					"name": "create-seller",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/v1/users/create-seller/3",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"create-seller",
+								"3"
+							]
+						}
 					},
 					"response": []
 				}
@@ -111,16 +316,69 @@
 				{
 					"name": "create",
 					"request": {
-						"method": "GET",
-						"header": []
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{vault:authorization-secret}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": 0,\r\n    \"title\": \"Toyota supra\",\r\n    \"body\": \"Продам машину в дуже класному стані\",\r\n    \"price\": 100,\r\n    \"currency\": \"UAH\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/v1/offers/create",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"offers",
+								"create"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "get-all",
 					"request": {
-						"method": "GET",
-						"header": []
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{vault:authorization-secret}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/v1/offers/get-all",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"offers",
+								"get-all"
+							]
+						}
 					},
 					"response": []
 				},
@@ -128,23 +386,70 @@
 					"name": "my-offers",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/v1/offers/my-offers/1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"offers",
+								"my-offers",
+								"1"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "update",
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 0,\r\n    \"user\": {\r\n        \r\n    },\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/v1/offers/update",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"offers",
+								"update"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "delete",
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/v1/offers/1/0",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"offers",
+								"1",
+								"0"
+							]
+						}
 					},
 					"response": []
 				},
@@ -153,11 +458,114 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "http://localhost:8080/api/v1/offers/1/0"
+						"url": {
+							"raw": "{{baseURL}}/api/v1/offers/1/0",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"offers",
+								"1",
+								"0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "analytics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/v1/offers/analytics/1/0",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"offers",
+								"analytics",
+								"1",
+								"0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add-model",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/v1/models/add/supra",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"models",
+								"add",
+								"supra"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/v1/models/delete/supra",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"models",
+								"delete",
+								"supra"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "all-models",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/v1/models/",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"models",
+								""
+							]
+						}
 					},
 					"response": []
 				}
 			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "",
+			"type": "default"
 		}
 	]
 }

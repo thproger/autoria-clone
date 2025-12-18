@@ -20,7 +20,9 @@ public class Offer {
     private String title;
     private String body;
     private double price;
-    private String model;
+    @ManyToOne
+    @JoinColumn(name = "model_name")
+    private Model model;
     @Enumerated(EnumType.STRING)
     private Currency currency;
     @Enumerated(EnumType.STRING)

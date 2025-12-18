@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import ua.autoria.demo1.models.AnalyticsResponse;
 import ua.autoria.demo1.models.Offer;
 import ua.autoria.demo1.models.OfferManipulations;
 import ua.autoria.demo1.models.dto.OfferDTO;
@@ -24,11 +25,9 @@ public class OfferController {
         return new ResponseEntity<>(offerService.getAllOffers(), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAnyRole('MANAGER', 'SELLER', 'ADMIN')")
     @PostMapping("/create")
-    public HttpStatus createOffer(@RequestBody OfferDTO offerDTO) {
-        System.out.println("createOffer: " + offerDTO);
-        var offer = new OfferDTO(offerDTO.getUserId(), offerDTO.getTitle(), offerDTO.getBody(), offerDTO.getPrice(), offerDTO.getCurrency());
+    public HttpStatus createOffer(@RequestBody OfferDTO offer) {
+        System.out.println("createOffer: " + offer);
         try {
             System.out.println("Creating offer: " + offer);
             offerService.createOffer(offer);
@@ -85,6 +84,16 @@ public class OfferController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             return new ResponseEntity<>(OfferManipulations.DELETED,HttpStatus.OK);
+        }
+    }
+
+    @PreAuthorize("hasAnyRole('MANAGER', 'ADMIN')")
+    @GetMapping("/analytics/{userId}/{postId}")
+    public ResponseEntity<AnalyticsResponse> getAnalytics(@PathVariable long userId, @PathVariable long postId) {
+        try {
+            return new ResponseEntity<>(offerService.createAnalytics(userId, postId), HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 }
