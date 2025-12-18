@@ -26,7 +26,7 @@ public class AuthenticationService {
                     .firstName(registerRequest.getFirstName())
                     .lastName(registerRequest.getLastName())
                     .email(registerRequest.getEmail())
-                    .password(registerRequest.getPassword())
+                    .password(passwordEncoder.encode(registerRequest.getPassword()))
                     .role(Role.valueOf(registerRequest.getRole()))
                     .build();
         } catch (NullPointerException e) {

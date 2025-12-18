@@ -3,7 +3,6 @@ package ua.autoria.demo1.security;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -17,7 +16,6 @@ import ua.autoria.demo1.filters.JwtAuthentificationFilter;
 @AllArgsConstructor
 public class SecurityConfiguration {
     private JwtAuthentificationFilter jwtAuthentificationFilter;
-    private AuthenticationProvider authentificationProvider;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) {
@@ -27,12 +25,10 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(matchRegistry -> {
                     matchRegistry
                             .requestMatchers("/api/v1/auth/**").permitAll()
-                            .requestMatchers("/api/v1/offers/create").hasAnyRole("SELLER", "ADMIN", "MANAGER")
                             .anyRequest()
                             .authenticated();
                 })
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authentificationProvider)
                 .addFilterBefore(jwtAuthentificationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

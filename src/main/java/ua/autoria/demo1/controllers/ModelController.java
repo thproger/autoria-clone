@@ -12,21 +12,22 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@RequestMapping("/api/v1/models")
 public class ModelController {
     private ModelService modelService;
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
-    @PostMapping("/models/add/{name}")
+    @PostMapping("/add/{name}")
     public void addModel(@PathVariable String name) {
         modelService.add(name);
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
-    @DeleteMapping("/models/delete/{name}")
+    @DeleteMapping("/delete/{name}")
     public void deleteModel(@PathVariable String name) {
         modelService.delete(name);
     }
 
-    @GetMapping("/models/")
+    @GetMapping("/")
     public ResponseEntity<List<Model>> getModels() {
         return new ResponseEntity<>(modelService.getAll(), HttpStatus.OK);
     }

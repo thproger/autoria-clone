@@ -20,8 +20,7 @@ public class Offer {
     private String title;
     private String body;
     private double price;
-    @ManyToOne
-    @JoinColumn(name = "model_name")
+    @ManyToOne(cascade = CascadeType.ALL)
     private Model model;
     @Enumerated(EnumType.STRING)
     private Currency currency;

@@ -1,6 +1,5 @@
 package ua.autoria.demo1.controllers;
 
-import jakarta.mail.MessagingException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +15,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/offers")
+@RequestMapping("/api/v1/offers")
 public class OfferController {
     private OfferService offerService;
 
@@ -25,15 +24,15 @@ public class OfferController {
         return new ResponseEntity<>(offerService.getAllOffers(), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyRole('MANAGER', 'SELLER', 'ADMIN')")
     @PostMapping("/create")
     public HttpStatus createOffer(@RequestBody OfferDTO offer) {
         System.out.println("createOffer: " + offer);
         try {
             System.out.println("Creating offer: " + offer);
             offerService.createOffer(offer);
-        } catch (MessagingException e) {
-            return HttpStatus.BAD_REQUEST;
         } catch (Exception e) {
+            System.err.println(e.getMessage());
             return HttpStatus.BAD_REQUEST;
         }
         return HttpStatus.CREATED;

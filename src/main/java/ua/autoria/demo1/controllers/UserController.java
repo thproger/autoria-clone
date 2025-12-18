@@ -11,7 +11,7 @@ import ua.autoria.demo1.services.SendEmailService;
 import ua.autoria.demo1.services.UserService;
 
 @RestController
-@RequestMapping("/users/")
+@RequestMapping("/api/v1/users/")
 @AllArgsConstructor
 public class UserController {
     private final UserService userService;

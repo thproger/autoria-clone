@@ -46,7 +46,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"firstName\": \"user\",\r\n    \"lastName\": \"user\",\r\n    \"email\": \"ftcserhiy@gmail.com\",\r\n    \"password\": \"jsdhakjds\",\r\n    \"role\": \"ROLE_ADMIN\"\r\n}",
+							"raw": "{\r\n    \"firstName\": \"user\",\r\n    \"lastName\": \"user\",\r\n    \"email\": \"ftcsserhiy@gmail.com\",\r\n    \"password\": \"jsdhakjds\",\r\n    \"role\": \"ROLE_ADMIN\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -75,7 +75,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"firstName\": \"user\",\r\n    \"lastName\": \"user\",\r\n    \"email\": \"super@gmail.com\",\r\n    \"password\": \"jsdhakjds\",\r\n    \"role\": \"ROLE_ADMIN\"\r\n}",
+							"raw": "{\r\n    \"firstName\": \"user\",\r\n    \"lastName\": \"user\",\r\n    \"email\": \"ftcsserhiy@gmail.com\",\r\n    \"password\": \"jsdhakjds\",\r\n    \"role\": \"ROLE_ADMIN\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -110,79 +110,15 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{vault:authorization-secret}}",
+									"value": "{{token}}",
 									"type": "string"
 								}
 							]
 						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseURL}}/api/v1/users/create-manager/1",
-							"host": [
-								"{{baseURL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"users",
-								"create-manager",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "delete-manager",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/api/v1/users/delete-meneger/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"v1",
-								"users",
-								"delete-meneger",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "delete",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{baseURL}}/api/v1/users/3",
-							"host": [
-								"{{baseURL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"users",
-								"3"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "block",
-					"request": {
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/v1/users/block/3",
+							"raw": "{{baseURL}}/api/v1/users/create-meneger/2",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -190,70 +126,8 @@
 								"api",
 								"v1",
 								"users",
-								"block",
-								"3"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "unblock",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseURL}}/api/v1/users/unblock/3",
-							"host": [
-								"{{baseURL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"users",
-								"unblock",
-								"3"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "premium",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseURL}}/api/v1/users/premium/0",
-							"host": [
-								"{{baseURL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"users",
-								"premium",
-								"0"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "unpremium",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseURL}}/api/v1/unpremium/0",
-							"host": [
-								"{{baseURL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"unpremium",
-								"0"
+								"create-meneger",
+								"2"
 							]
 						}
 					},
@@ -262,11 +136,21 @@
 				{
 					"name": "write-to-manager",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"offerId\": 1,\r\n    \"message\": \"This car don't work correctyly\",\r\n    \"userId\": 0\r\n}",
+							"raw": "{\r\n    \"offerId\": 1,\r\n    \"message\": \"This car don't work correctyly\",\r\n    \"userId\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -288,12 +172,169 @@
 					"response": []
 				},
 				{
+					"name": "block",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/v1/users/block/2",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"block",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "unblock",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/v1/users/unblock/2",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"unblock",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "premium",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/v1/users/premium/2",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"premium",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "unpremium",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/v1/users/unpremium/2",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"unpremium",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-manager",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/users/delete-meneger/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"delete-meneger",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "create-seller",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/v1/users/create-seller/3",
+							"raw": "{{baseURL}}/api/v1/users/create-seller/2",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -302,7 +343,37 @@
 								"v1",
 								"users",
 								"create-seller",
-								"3"
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/v1/users/2",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"2"
 							]
 						}
 					},
@@ -321,7 +392,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{vault:authorization-secret}}",
+									"value": "{{token}}",
 									"type": "string"
 								}
 							]
@@ -330,7 +401,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"userId\": 0,\r\n    \"title\": \"Toyota supra\",\r\n    \"body\": \"Продам машину в дуже класному стані\",\r\n    \"price\": 100,\r\n    \"currency\": \"UAH\"\r\n}",
+							"raw": "{\r\n    \"userId\":1,\r\n    \"title\": \"Toyota supra\",\r\n    \"body\": \"Продам машину в дуже класному стані\",\r\n    \"price\": 100,\r\n    \"model\": \"corolla\",\r\n    \"currency\": \"UAH\",\r\n    \"region\": \"MYKOLAIVSKA\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -360,12 +431,12 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{vault:authorization-secret}}",
+									"value": "{{token}}",
 									"type": "string"
 								}
 							]
 						},
-						"method": "POST",
+						"method": "GET",
 						"header": [],
 						"url": {
 							"raw": "{{baseURL}}/api/v1/offers/get-all",
@@ -385,6 +456,16 @@
 				{
 					"name": "my-offers",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -404,62 +485,22 @@
 					"response": []
 				},
 				{
-					"name": "update",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"id\": 0,\r\n    \"user\": {\r\n        \r\n    },\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseURL}}/api/v1/offers/update",
-							"host": [
-								"{{baseURL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"offers",
-								"update"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "delete",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{baseURL}}/api/v1/offers/1/0",
-							"host": [
-								"{{baseURL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"offers",
-								"1",
-								"0"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "set-active",
 					"request": {
-						"method": "GET",
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/v1/offers/1/0",
+							"raw": "{{baseURL}}/api/v1/offers/change-active/1/true",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -467,8 +508,9 @@
 								"api",
 								"v1",
 								"offers",
+								"change-active",
 								"1",
-								"0"
+								"true"
 							]
 						}
 					},
@@ -477,10 +519,20 @@
 				{
 					"name": "analytics",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/v1/offers/analytics/1/0",
+							"raw": "{{baseURL}}/api/v1/offers/analytics/1/1",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -490,7 +542,7 @@
 								"offers",
 								"analytics",
 								"1",
-								"0"
+								"1"
 							]
 						}
 					},
@@ -499,6 +551,16 @@
 				{
 					"name": "add-model",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"url": {
@@ -518,8 +580,18 @@
 					"response": []
 				},
 				{
-					"name": "New Request",
+					"name": "delete model",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
@@ -539,8 +611,49 @@
 					"response": []
 				},
 				{
+					"name": "delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/v1/offers/1/1",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"offers",
+								"1",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "all-models",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -564,6 +677,11 @@
 	"variable": [
 		{
 			"key": "baseURL",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "token",
 			"value": "",
 			"type": "default"
 		}
