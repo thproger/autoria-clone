@@ -91,6 +91,7 @@ public class UserController {
             sendEmailService.sendMessageToManager(managerMessage);
             return HttpStatus.OK;
         } catch (MessagingException e) {
+            System.err.println(e.getMessage());
             return HttpStatus.BAD_REQUEST;
         }
     }
@@ -101,6 +102,7 @@ public class UserController {
             userService.createSeller(id);
             return HttpStatus.OK;
         } catch (RuntimeException e) {
+            System.err.println(e.getMessage());
             return HttpStatus.BAD_REQUEST;
         }
     }

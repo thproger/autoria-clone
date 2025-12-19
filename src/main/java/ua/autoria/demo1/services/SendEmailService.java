@@ -10,6 +10,7 @@ import ua.autoria.demo1.dao.OfferDAO;
 import ua.autoria.demo1.models.ManagerMessage;
 import ua.autoria.demo1.models.Offer;
 import ua.autoria.demo1.models.RegisterRequest;
+import ua.autoria.demo1.models.User;
 
 import java.util.Random;
 
@@ -54,8 +55,10 @@ public class SendEmailService {
         var offer = offerDAO.findById(message.getOfferId()).orElseThrow(() -> new RuntimeException("Offer not found"));
         var offerCreator = userService.getUser(offer.getUser().getId());
         var rand = new Random();
-        var manager = managers.get(rand.nextInt(managers.size()));
+        User manager;
         var mail = mailSender.createMimeMessage();
+        if (managers.size() == 1) manager = managers.get(rand.nextInt(managers.size()));
+        else manager = managers.get(rand.nextInt(managers.size() + 1));
         var helper = new MimeMessageHelper(mail);
         helper.setFrom(user.getEmail());
         helper.setTo(manager.getEmail());

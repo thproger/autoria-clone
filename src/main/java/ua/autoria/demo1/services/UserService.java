@@ -65,5 +65,6 @@ public class UserService {
     public void createSeller(long userId) throws RuntimeException {
         var user = userDAO.findUserById(userId).orElseThrow(() -> new RuntimeException("User not found"));
         user.setRole(Role.ROLE_SELLER);
+        userDAO.save(user);
     }
 }

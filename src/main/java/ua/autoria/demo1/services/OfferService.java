@@ -26,19 +26,23 @@ public class OfferService {
             throw  new Exception("You don't premium user :(");
         }
 
-        var offer = new Offer().builder()
+        var offer = Offer.builder()
                 .title(offerDTO.getTitle())
                 .body(offerDTO.getBody())
                 .model(new Model(offerDTO.getModel()))
                 .price(offerDTO.getPrice())
                 .currency(offerDTO.getCurrency())
                 .user(user).build();
-        sendEmailService.sendOfferCreated(offer);
+        try {
+            sendEmailService.sendOfferCreated(offer);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
         offerDAO.save(offer);
     }
 
-    public Offer updateOffer(Offer offer) {
-        return offerDAO.save(offer);
+    public void updateOffer(Offer offer) {
+        offerDAO.save(offer);
     }
 
     public void deleteOffer(long userId, long offerId) throws RuntimeException {
@@ -51,8 +55,8 @@ public class OfferService {
         }
     }
 
-    public List<Offer> getAllOffers() {
-        return offerDAO.findAll();
+    public List<OfferDTO> getAllOffers() {
+        return offerDAO.findAll().stream().map(OfferDTO::fromOffer).toList();
     }
 
     public List<Offer> getAllUserOffers(long id) {
@@ -62,7 +66,6 @@ public class OfferService {
     public Offer getOfferById(long id) {
         var offer = offerDAO.findById(id).orElseThrow(() -> new RuntimeException("Offer not found"));
         viewDAO.save(new View(offer, LocalDate.now()));
-        var date = LocalDate.now();
         offerDAO.save(offer);
         return offer;
     }
@@ -79,22 +82,38 @@ public class OfferService {
 
     public double averageByModel(String name) {
         var models = offerDAO.findByModelName(name);
-        var sum = 0;
+        var sum = 0.0;
         for(var model : models) {
             sum += model.getPrice();
         }
 
-        return (double) sum / models.size();
+        return sum / models.size();
     }
 
     public double averageByModelAndRegion(String name, Region region) {
         var models = offerDAO.findByModelNameAndRegion(name, region);
-        var sum = 0;
+        var sum = 0.0;
         for(var model : models) {
             sum += model.getPrice();
         }
 
-        return (double) sum / models.size();
+        return sum / models.size();
+    }
+
+    public double averageByWeek(long offerId) {
+        var views = viewDAO.findByOfferId(offerId);
+        var count = views.stream()
+                .filter(view -> !view.getDate().isBefore(LocalDate.now().minusDays(7)))
+                .count();
+        return (double) count / views.size();
+    }
+
+    public double averageByMonth(long offerId) {
+        var views = viewDAO.findByOfferId(offerId);
+        var count = views.stream()
+                .filter(view -> !view.getDate().isBefore(LocalDate.now().minusMonths(1)))
+                .count();
+        return (double) count / views.size();
     }
 
     public AnalyticsResponse createAnalytics(long userId, long offerId) {
@@ -103,6 +122,6 @@ public class OfferService {
             throw new RuntimeException("You don't premium user :(");
         }
         var offer = offerDAO.findById(offerId).orElseThrow(() -> new RuntimeException("offer not found"));
-        return new AnalyticsResponse(viewDAO.countByOffer(offer), averageByModel(offer.getModel().getName()), averageByModelAndRegion(offer.getModel().getName(), offer.getRegion()));
+        return new AnalyticsResponse(viewDAO.countByOffer(offer), averageByWeek(offerId), averageByMonth(offerId), averageByModel(offer.getModel().getName()), averageByModelAndRegion(offer.getModel().getName(), offer.getRegion()));
     }
 }

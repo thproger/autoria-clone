@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AnalyticsResponse {
     private int views;
-    private double average;
+    private double averageByDay;
+    private double averageByMonth;
+    private double averageByWeek;
     private double averageInRegion;
 }

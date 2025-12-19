@@ -10,12 +10,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 import ua.autoria.demo1.dao.UserDAO;
 
 @Configuration
 @AllArgsConstructor
-public class ApplicationConfig implements WebSocketMessageBrokerConfigurer {
+public class ApplicationConfig {
     private UserDAO userDAO;
     @Bean
     public UserDetailsPasswordService userPasswordDetailsService() {

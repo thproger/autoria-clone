@@ -20,7 +20,7 @@ public class OfferController {
     private OfferService offerService;
 
     @GetMapping("/get-all")
-    public ResponseEntity<List<Offer>> getAllOffers() {
+    public ResponseEntity<List<OfferDTO>> getAllOffers() {
         return new ResponseEntity<>(offerService.getAllOffers(), HttpStatus.OK);
     }
 

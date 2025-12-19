@@ -1,6 +1,5 @@
 package ua.autoria.demo1.services;
 
-import jakarta.mail.MessagingException;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,7 +18,7 @@ public class AuthenticationService {
     private AuthenticationManager authenticationManager;
     private SendEmailService sendEmailService;
 
-    public AuthenticationResponse register(RegisterRequest registerRequest) throws MessagingException, RuntimeException {
+    public AuthenticationResponse register(RegisterRequest registerRequest) throws RuntimeException {
         User user = new User();
         try {
             user = User.builder()
@@ -45,7 +44,11 @@ public class AuthenticationService {
                 .token(token)
                 .refreshToken(refreshToken)
                 .build();
-        sendEmailService.sendHelloEmail(registerRequest);
+        try {
+            sendEmailService.sendHelloEmail(registerRequest);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
         return response;
     }
 

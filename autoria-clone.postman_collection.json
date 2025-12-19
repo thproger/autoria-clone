@@ -184,7 +184,7 @@
 								}
 							]
 						},
-						"method": "POST",
+						"method": "GET",
 						"header": [],
 						"url": {
 							"raw": "{{baseURL}}/api/v1/users/block/2",
@@ -249,7 +249,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/v1/users/premium/2",
+							"raw": "{{baseURL}}/api/v1/users/premium/1",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -258,7 +258,7 @@
 								"v1",
 								"users",
 								"premium",
-								"2"
+								"1"
 							]
 						}
 					},
@@ -331,10 +331,20 @@
 				{
 					"name": "create-seller",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/v1/users/create-seller/2",
+							"raw": "{{baseURL}}/api/v1/users/create-seller/3",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -343,7 +353,7 @@
 								"v1",
 								"users",
 								"create-seller",
-								"2"
+								"3"
 							]
 						}
 					},
@@ -500,7 +510,7 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{baseURL}}/api/v1/offers/change-active/1/true",
+							"raw": "{{baseURL}}/api/v1/offers/change-active/1/1",
 							"host": [
 								"{{baseURL}}"
 							],
@@ -510,7 +520,7 @@
 								"offers",
 								"change-active",
 								"1",
-								"true"
+								"1"
 							]
 						}
 					},

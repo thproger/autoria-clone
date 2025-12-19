@@ -21,15 +21,10 @@ public class AuthController {
     public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest registerRequest) {
         System.out.println("starting register");
         System.out.println("registerRequest: " + registerRequest);
-        try {
-            System.out.println("In try block");
-            var response = authenticationService.register(registerRequest);
-            System.out.println("registered register");
-            return new ResponseEntity<>(response, HttpStatus.CREATED);
-        } catch (MessagingException e) {
-            System.out.println(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        System.out.println("In try block");
+        var response = authenticationService.register(registerRequest);
+        System.out.println("registered register");
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @PostMapping("/authenticate")
